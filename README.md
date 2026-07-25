@@ -18,21 +18,18 @@ ZIP appended after the image data, etc).
   directory tree with a single command
 
 ## Quick start
-\`\`\`
 pip install -r requirements.txt
 python gui.py              # point-and-click, no command line needed
-\`\`\`
 or
-\`\`\`
 python -m magic_identifier C:\path\to\folder --hash --embedded
-\`\`\`
+
 
 Identify what a file *actually is* by inspecting its bytes, instead of trusting
 its extension.
 
 ```
 python3 -m magic_identifier /path/to/scan --hash --embedded
-```
+
 
 ## Features
 
