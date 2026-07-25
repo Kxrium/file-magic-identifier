@@ -29,7 +29,7 @@ its extension.
 
 ```
 python3 -m magic_identifier /path/to/scan --hash --embedded
-
+```
 
 ## Features
 
@@ -135,53 +135,6 @@ python3 -m magic_identifier TARGET [options]
   --html PATH             export results as a standalone HTML report
 ```
 
-## Caveats
-
-- **TrID definitions**: real TrID `.trd` files are a proprietary compiled
-  binary format. This tool parses the community-documented human-readable XML
-  representation instead (see `magic_identifier/signatures.py` docstring for
-  the exact schema). Point `--db` at a real `.trd` file and it will fail to
-  parse — convert it to the XML form first.
-- **Unix magic syntax**: only single-line `string`/`byte`/`short`/`long`
-  rules are supported. Multi-line `>` continuation rules (AND-logic,
-  indirect offsets, nested tests) are skipped. This covers the common case
-  of simple magic-number matching but is not a full `file(1)` reimplementation.
-- **RAR/7z recursive scanning**: only member *listing* is available, and only
-  if `rarfile` (RAR) or `py7zr` (7z) is installed — these aren't in
-  `requirements.txt` by default since they pull in extra native dependencies.
-  ZIP recursion works out of the box with the standard library.
-- **Embedded-file scanning** reads the whole file into memory, so it's capped
-  at 20 MB per file by default (`EMBEDDED_SCAN_CAP` in `scanner.py`) to avoid
-  blowing up memory on huge files during a directory scan.
-- **Confidence scores** are a heuristic (concrete bytes weight 1.0, wildcard
-  bytes weight 0.5), not a statistical probability — treat them as a ranking
-  signal between competing candidate signatures, not a calibrated percentage.
-
-## Project layout
-
-```
-magic_identifier/
-  __init__.py       public API (scan_file, scan_directory, Signature, ...)
-  __main__.py        `python -m magic_identifier` entry point
-  cli.py             argument parsing, orchestration
-  signatures.py       Signature/Match dataclasses, wildcard matching,
-                      confidence scoring, JSON/TrID/Unix-magic loaders
-  scanner.py          per-file detection, extension-mismatch logic,
-                      threaded directory walk, embedded-file search
-  containers.py        ZIP container disambiguation (DOCX/XLSX/APK/JAR),
-                      recursive archive member listing
-  text_types.py         extension/shebang fallback for source & text files
-  hashing.py             streaming MD5/SHA-256
-  report.py               JSON/CSV/HTML exporters
-  console.py               rich-based colored table, plain-text fallback
-data/
-  signatures.json     the default signature database
-tests/
-  conftest.py         generates sample binary fixtures on the fly
-  test_signatures.py  wildcard matching, confidence scoring, parsers
-  test_scanner.py     mismatch detection, hashing, embedded/archive scanning
-  test_report.py      export format tests
-```
 
 Run the tests with:
 
