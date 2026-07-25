@@ -1,5 +1,32 @@
 # File Magic Identifier
 
+A lightweight file-signature (magic byte) scanner built for spotting
+disguised or mislabeled files , the kind of technique used in malware
+triage and DFIR to catch payloads hiding behind a fake extension
+(`invoice.pdf` that's actually a PE executable, a `.jpg` with an embedded
+ZIP appended after the image data, etc).
+
+## Why this matters for security work
+- **Extension spoofing detection** — flags any file whose real content
+  doesn't match what its name claims
+- **Embedded payload detection** — finds file signatures hiding *inside*
+  another file, not just at byte 0 (a common technique for smuggling a
+  second payload past a casual look)
+- **SHA-256/MD5 hashing** built in, for cross-referencing against
+  VirusTotal/known-hash databases
+- **Bulk triage** — multi-threaded recursive scanning of an entire
+  directory tree with a single command
+
+## Quick start
+\`\`\`
+pip install -r requirements.txt
+python gui.py              # point-and-click, no command line needed
+\`\`\`
+or
+\`\`\`
+python -m magic_identifier C:\path\to\folder --hash --embedded
+\`\`\`
+
 Identify what a file *actually is* by inspecting its bytes, instead of trusting
 its extension.
 
