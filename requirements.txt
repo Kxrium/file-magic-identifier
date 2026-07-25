@@ -1,0 +1,8 @@
+rich>=13.0
+
+# Optional, only needed for --archive-recurse support on those formats:
+# rarfile
+# py7zr
+
+# Only needed to run the test suite:
+pytest>=7.0
