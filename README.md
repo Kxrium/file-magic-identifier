@@ -3,7 +3,7 @@
 A lightweight file-signature (magic byte) scanner built for spotting
 disguised or mislabeled files , the kind of technique used in malware
 triage and DFIR to catch payloads hiding behind a fake extension
-(`invoice.pdf` that's actually a PE executable, a `.jpg` with an embedded
+(`invoice.pdf` that's actually a PE executable(windows), a `.jpg` with an embedded
 ZIP appended after the image data, etc).
 
 ## Why this matters for security work
@@ -19,7 +19,8 @@ ZIP appended after the image data, etc).
 
 ## Quick start
 pip install -r requirements.txt
-python gui.py              # point-and-click, no command line needed
+python gui.py           
+# point-and-click, no command line needed
 or
 python -m magic_identifier C:\path\to\folder --hash --embedded
 
